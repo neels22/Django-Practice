@@ -1,0 +1,55 @@
+
+
+
+{% extends "home/base.html" %}
+
+
+{% block title %}
+
+index page
+
+{% endblock title %}
+
+{% block body %}
+
+    <h1>this is from a template</h1>
+
+    <p>i am from index html file returned via render method</p>
+
+    <a href="/about/">about</a>
+
+
+    <table border="1">
+
+        <tr>
+
+            <th>Name</th>
+            <th>Age</th>
+        </tr>
+
+        {% for p in people  %}
+        <tr>
+            <td>{{p.name}}</td>
+            <td>
+                {{p.age}}
+                {% if p.age >= 18  %}
+                can vote
+                {% else %}
+                can not vote
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+
+    {% for student in students %}
+    {{student.age}}
+    {{student.name}}
+    {{student.email}}
+    {{student.image}}
+
+    {% endfor %}
+
+    {% endblock body %}
