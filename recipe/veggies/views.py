@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 from .models import Recipe
 
@@ -24,6 +25,17 @@ def accept_response(req):
             recipe_image = recipe_image
         )
         return redirect('/recipe/') # why to do redirect 
+    
+    queryset = Recipe.objects.all()
 
     
-    return render(req,'recipeform.html',{})
+    return render(req,'recipeform.html',{'recipes':queryset})
+
+
+def delete_recipe(req,id):
+
+    query = Recipe.objects.get(id=id)
+    query.delete()
+    return redirect('/recipe/')
+    print(id)
+    # return HttpResponse('a')
