@@ -8,21 +8,20 @@
 </head>
 <body>
   <div class="container mt-5 card shadow">
-    <h2>Recipe Form</h2>
-
+    <h2>Update recipe</h2>
     <form action="#" method="POST" enctype="multipart/form-data">
 
         {% csrf_token %}
       <!-- Name field -->
       <div class="form-group">
         <label for="name">Recipe Name</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+        <input type="text" value={{recipes.recipe_name}} class="form-control" id="name" name="name" placeholder="Enter your name" required>
       </div>
 
       <!-- Description field -->
       <div class="form-group">
         <label for="description">Recipe description</label>
-        <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter a description" required></textarea>
+        <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter a description" required>{{recipes.recipe_description}}</textarea>
       </div>
 
       <!-- Image upload field -->
@@ -32,24 +31,12 @@
       </div>
 
       <!-- Submit button -->
-      <button type="submit" class="btn btn-primary m-3">Submit</button>
+      <button type="submit" class="btn btn-primary">Update recipe</button>
     </form>
   </div>
 
-  <div class="container mt-5">
-    <form method="get" action="#">
-        <div class="mb-3">
-            <label for="name">Search Recipe</label>
-            <input type="text" class="form-control" placeholder="Search..." name="search">
-        </div>
-        <div class="mb-3">
-            <button class="btn btn-primary" type="submit">Search</button>
-        </div>
-    </form>
-</div>
 
-
-
+{% comment %} 
   <div class="container mt-5">
     <h2>Recipe Table</h2>
   <table class="table table-bordered table-striped">
@@ -73,15 +60,14 @@
         <img src='/media/{{recipe.recipe_image}}'  style="height: 200px" >
          </td>
          <td>
-            <a href='/delete-recipe/{{recipe.id}}' class="btn btn-danger m-2">Delete </a>
-            <a href='/update-recipe/{{recipe.id}}' class="btn btn-primary">Update </a>
+            <a href='/delete-recipe/{{recipe.id}}' class="btn btn-danger">Delete </a>
          </td>
       </tr>
       {% endfor %}
       <tbody>
 
 </table>
-</div>
+</div> {% endcomment %}
 
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

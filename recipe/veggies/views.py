@@ -28,6 +28,8 @@ def accept_response(req):
     
     queryset = Recipe.objects.all()
 
+    if req.GET.get('search'):
+        queryset = queryset.filter(recipe_name__icontains = req.GET.get('search'))
     
     return render(req,'recipeform.html',{'recipes':queryset})
 
@@ -37,5 +39,30 @@ def delete_recipe(req,id):
     query = Recipe.objects.get(id=id)
     query.delete()
     return redirect('/recipe/')
-    print(id)
+
     # return HttpResponse('a')
+
+
+def update_recipe(req,id):
+    queryset = Recipe.objects.get(id=id)
+
+    if req.method == "POST":
+        data = req.POST
+        recipe_name = data.get('name')
+        recipe_description = data.get('description')
+        recipe_image= req.FILES.get('image')
+
+        queryset.recipe_name = recipe_name
+        queryset.recipe_description = recipe_description
+        if recipe_image:
+            queryset.recipe_image = recipe_image
+
+        queryset.save()
+        return redirect('/recipe/')
+
+
+
+    return render(req,'update_form.html',{'recipes':queryset})
+
+
+
