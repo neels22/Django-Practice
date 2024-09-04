@@ -5,9 +5,11 @@ from django.contrib.auth.models import User
 
 from .models import Recipe
 from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout,login
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-
+@login_required(login_url='/login/')
 def accept_response(req):
     if req.method=='POST':
         data = req.POST
@@ -35,7 +37,7 @@ def accept_response(req):
     
     return render(req,'recipeform.html',{'recipes':queryset})
 
-
+@login_required
 def delete_recipe(req,id):
 
     query = Recipe.objects.get(id=id)
@@ -44,7 +46,7 @@ def delete_recipe(req,id):
 
     # return HttpResponse('a')
 
-
+@login_required
 def update_recipe(req,id):
     queryset = Recipe.objects.get(id=id)
 
@@ -68,10 +70,31 @@ def update_recipe(req,id):
 
 
 
-def login(req):
+def login_page(req):
 
-    return render(req,'login.html',{})
+        if req.method == "POST":
+            email = req.POST.get('email')
+            password = req.POST.get('password')
 
+            if not User.objects.filter(username=email).exists():
+                messages.error(req, "User with this email already exists!")
+                return redirect('/login/')
+
+            user  = authenticate(username=email,password = password)
+
+            if user is None:
+                messages.error(req,'Invalid credentials')
+                return('/login/')
+            else:
+                login(req,user)
+                return redirect('/recipe/')
+        
+        return render(req,'login.html',{})
+
+
+def logout_page(req):
+    logout(req)
+    return redirect('/login/')
 
 def register(req):
     if req.method == "POST":
